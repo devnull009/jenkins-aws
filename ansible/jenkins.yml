@@ -1,0 +1,46 @@
+---
+- name: Deploy Jenkins custom code to AWS
+  hosts: all
+  gather_facts: False
+
+  tasks:
+  - name: Create temp directory for Jenkins
+    file:
+      path: /tmp/jenkins
+      state: directory
+      mode: '0755'
+  - name: Create temp directory for Jenkins Slave
+    file:
+      path: /tmp/jenkins-slave
+      state: directory
+      mode: '0755'
+  - name: Copy Jenkins files
+    copy:
+      src: "{{ item }}"
+      dest: /tmp/jenkins
+      owner: '{{ansible_user}}'
+      group: '{{ansible_user}}'
+      mode: '0644'
+    with_items:
+        - ./jenkins/basic-security.groovy
+        - ./jenkins/build.sh
+        - ./jenkins/Dockerfile
+        - ./jenkins/jenkins.yaml
+        - ./jenkins/plugins.txt
+        - ./jenkins/stop.sh
+        - ./jenkins/run.sh
+  - name: Copy Jenkins Slave files
+    copy:
+      src: "{{ item }}"
+      dest: /tmp/jenkins-slave
+      owner: '{{ansible_user}}'
+      group: '{{ansible_user}}'
+      mode: '0644'
+    with_items:
+        - ./jenkins-slave/build.sh
+        - ./jenkins-slave/Dockerfile
+        - ./jenkins-slave/entrypoint.sh
+        - ./jenkins-slave/env.txt
+        - ./jenkins-slave/run.sh
+
+    

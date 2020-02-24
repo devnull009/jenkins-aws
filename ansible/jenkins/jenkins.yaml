@@ -1,0 +1,45 @@
+jenkins:
+    systemMessage: "Hello, CASC!"
+    numExecutors: 1
+    securityRealm:
+        local:
+            allowsSignup: false
+            enableCaptcha: false
+            users:
+                - id: kris
+                  password: ${KRIS_PWD}
+    authorizationStrategy:
+        globalMatrix:
+            permissions:
+                - "Overall/Administer:authenticated"
+                - "Overall/Administer:kris"
+    crumbIssuer:
+        standard:
+            excludeClientIPFromCrumb: false
+    remotingSecurity:
+        enabled: true
+    nodes:
+        - permanent:
+            launcher: jnlp
+            name: "slave1"
+            numExecutors: 1
+            remoteFS: "/tmp"
+            retentionStrategy: "always"
+        - permanent:
+            launcher: jnlp
+            name: "slave2"
+            numExecutors: 1
+            remoteFS: "/tmp"
+            retentionStrategy: "always"
+        - permanent:
+            launcher: jnlp
+            name: "slave3"
+            numExecutors: 1
+            remoteFS: "/tmp"
+            retentionStrategy: "always"
+        - permanent:
+            launcher: jnlp
+            name: "slave4"
+            numExecutors: 1
+            remoteFS: "/tmp"
+            retentionStrategy: "always"

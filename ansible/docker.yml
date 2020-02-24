@@ -1,0 +1,47 @@
+---
+- name: Provision Docker env
+  hosts: all
+  gather_facts: False
+  become: yes
+  become_method: sudo
+  become_user: root
+
+  tasks:
+  - name: Install required packages for Docker
+    apt:
+      pkg:
+        - apt-transport-https
+        - ca-certificates
+        - curl
+        - gnupg-agent
+        - software-properties-common
+        - unzip
+      state: present
+      update_cache: yes
+      install_recommends: no
+      autoremove: yes
+  - name: Add an Apt signing key
+    apt_key:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      state: present
+  - name: Add Docker repository
+    apt_repository:
+      repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable
+      state: present
+  - name: Install Docker CE
+    apt:
+      pkg:
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io
+  - name: Enable and start Docker service
+    systemd:
+      name: docker
+      state: restarted
+      enabled: yes
+  - name: Add the user '{{ansible_user}}' to 'docker' group
+    user:
+      name: "{{ansible_user}}"
+      shell: /bin/bash
+      groups: docker
+      append: yes

@@ -1,0 +1,5 @@
+jenkins-master ansible_connection=ssh ansible_host= ansible_user=ubuntu
+jenkins-slave1 ansible_connection=ssh ansible_host= ansible_user=ubuntu
+jenkins-slave2 ansible_connection=ssh ansible_host= ansible_user=ubuntu
+jenkins-slave3 ansible_connection=ssh ansible_host= ansible_user=ubuntu
+jenkins-slave4 ansible_connection=ssh ansible_host= ansible_user=ubuntu
